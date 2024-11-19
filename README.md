@@ -60,11 +60,35 @@ Ferramentas utilizadas:
 * Biblioteca JDBC (mysql-connector-java.jar)
 * IDE VS CODE
 
+Executando o projeto🔄:
+
+
+
+<img width="531" alt="P O O 3" src="https://github.com/user-attachments/assets/e0e90ae3-f956-4d0a-b204-73ad5c3e3a11">
+
+
+
+
+Adicionando alunos⬇️
+
+
+<img width="1084" alt="P O O 1" src="https://github.com/user-attachments/assets/d579c536-24b3-4bad-a028-d4fa179a98c3">
+
+
+
+
+<img width="928" alt="P O O 2" src="https://github.com/user-attachments/assets/5c1a751a-a3f6-479c-b075-ca44a09d4f59">
+
+
+
+
+
+
 
 📌 Versão
 
 * Versão 1.0 - Implementação inicial com operações de CRUD e interface de linha de comando.
-* Versão 1.1 - Refatoração e otimizações 
+* Versão 1.1 - otimizações 
 
 
 ✒️ Autores
