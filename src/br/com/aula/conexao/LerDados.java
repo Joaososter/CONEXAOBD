@@ -1,29 +1,55 @@
 package br.com.aula.conexao;
+
 import java.sql.Connection;
-	import java.sql.PreparedStatement;
-	import java.sql.ResultSet;
-	import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-	public class LerDados {
-		//Método para listar os alunos no Banco de Dados
-	    public void listarAlunos() {
-	        String sql = "SELECT * FROM alunos";
+public class LerDados {
 
-	        try (Connection conexao = ConexaoDB.conectar();
-	             PreparedStatement stmt = conexao.prepareStatement(sql);
-	             ResultSet rs = stmt.executeQuery()) {
+    public void listarAlunos() {
+        // Conexão com o banco de dados
+        Connection conexao = ConexaoBD.conectar();
+        
+        if (conexao != null) {
+            String sql = "SELECT id, nome, idade FROM alunos";
+            
+            try {
+                PreparedStatement stmt = conexao.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
 
-	        	//Resultado e exibição dos alunos com id, nome e idade no Banco de Dados
-	            while (rs.next()) {
-	                int id = rs.getInt("id");
-	                String nome = rs.getString("nome");
-	                int idade = rs.getInt("idade");
+                System.out.println("\n=== Lista de Alunos ===");
 
-	                System.out.println("ID: " + id + ", Nome: " + nome + ", Idade: " + idade);
-	            }
-	        } catch (SQLException e) {
-	        	//Mensagem caso ocorra um erro no programa
-	            System.out.println("Erro ao ler dados dos alunos: " + e.getMessage());
-	        }
-	    }
-	}
+                boolean encontrouRegistros = false;
+
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String nome = rs.getString("nome");
+                    int idade = rs.getInt("idade");
+
+                    System.out.println("ID: " + id + " | Nome: " + nome + " | Idade: " + idade);
+                    encontrouRegistros = true;
+                }
+
+                if (!encontrouRegistros) {
+                    System.out.println("Nenhum registro encontrado.");
+                }
+
+                // Fecha o ResultSet e o PreparedStatement
+                rs.close();
+                stmt.close();
+
+            } catch (SQLException e) {
+                System.err.println("Erro ao listar alunos: " + e.getMessage());
+            } finally {
+                try {
+                    conexao.close();
+                } catch (SQLException e) {
+                    System.err.println("Erro ao fechar conexão: " + e.getMessage());
+                }
+            }
+        } else {
+            System.err.println("Não foi possível conectar ao banco de dados.");
+        }
+    }
+}

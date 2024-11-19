@@ -1,29 +1,49 @@
 package br.com.aula.conexao;
+
 import java.sql.Connection;
-	import java.sql.PreparedStatement;
-	import java.sql.SQLException;
-	
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
 
-	public class DeletarDados {
-		//Método para deletar alunos do Banco de Dados
-	    public void deletarAluno(int id) {
-	        String sql = "DELETE FROM alunos WHERE id = ?";
+public class DeletarDados {
+    public static void main(String[] args) {
+        Connection conexao = ConexaoDB.conectar();
+        
+        if (conexao != null) {
+            String sql = "DELETE FROM alunos WHERE id = ?";
+            Scanner scanner = new Scanner(System.in);
+            
+            try {
+                System.out.print("Digite o ID do aluno que deseja deletar: ");
+                int id = scanner.nextInt();
+                
+                PreparedStatement stmt = conexao.prepareStatement(sql);
+                stmt.setInt(1, id);
+                
+                int rowsDeleted = stmt.executeUpdate();
+                
+                if (rowsDeleted > 0) {
+                    System.out.println("Registro deletado com sucesso!");
+                } else {
+                    System.out.println("Nenhum registro encontrado com o ID especificado.");
+                }
+                
+            } catch (SQLException e) {
+                System.err.println("Erro ao deletar dados: " + e.getMessage());
+                
+            } finally {
+                try {
+                    if (conexao != null) conexao.close();
+                } catch (SQLException e) {
+                    System.err.println("Erro ao fechar conexão: " + e.getMessage());
+                }
+                scanner.close();
+            }
+        }
+    }
 
-	        try (Connection conexao = ConexaoDB.conectar();
-	             PreparedStatement stmt = conexao.prepareStatement(sql)) {
-
-	        	//Método para deletar do SQL
-	            stmt.setInt(1, id);
-
-	            //Verifica se o aluno foi deletado com sucesso ou se deu algum erro
-	            int rowsAffected = stmt.executeUpdate();
-	            if (rowsAffected > 0) {
-	                System.out.println("Aluno deletado com sucesso!");
-	            } else {
-	                System.out.println("Nenhum aluno encontrado com o ID informado.");
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Erro ao deletar aluno: " + e.getMessage());
-	        }
-	    }
+	public void deletarDados(int idDeletar) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'deletarDados'");
 	}
+}
